@@ -12,6 +12,6 @@ public class BotSelect {
      */
     public static Bot getBot() {
         // CHANGE THIS LINE TO USE YOUR OWN BOT
-        return new TestBot();
+        return new ProjectBot();
     }
 }
