@@ -66,7 +66,6 @@ public class ProjectBot implements Bot {
                 // all surrounding squares are mines
                 if (this.untouchedSquareCount + this.flagCount == square.surroundingMines()) {
                     if (!this.untouchedSquares.isEmpty()) {
-                        System.out.println("NORMAALI LIPPU");
                         move = true;
                         return placeFlag(this.untouchedSquares);
                     }
@@ -75,7 +74,6 @@ public class ProjectBot implements Bot {
                 // it's safe to open any surrounding unflagged square (assumes that flags are placed correctly)
                 if (this.minesLeft == 0) {
                     if (!this.untouchedSquares.isEmpty()) {
-                        System.out.println("NORMAALI AVAUS");
                         move = true;
                         return openSquare(this.untouchedSquares);
                     }
@@ -84,7 +82,6 @@ public class ProjectBot implements Bot {
                 // it is safe to open any other untouched square (not squares included in the mined pair)
                 if (this.pairsContainingMinesCount + this.flagCount == square.surroundingMines()) {
                     if (!this.untouchedSquaresExclPairs.isEmpty()) {
-                        System.out.println("PÄÄTTELY AVAUS");
                         move = true;
                         return openSquare(this.untouchedSquaresExclPairs);
                     }
@@ -93,7 +90,6 @@ public class ProjectBot implements Bot {
                 //it is safe to place falg on any untouched square not in mined pair
                 if (this.pairsContainingMinesCount + this.flagCount + this.untouchedSquaresExclPairs.size() == square.surroundingMines() && this.untouchedSquaresExclPairs.size() == 1) {
                     if (!this.untouchedSquaresExclPairs.isEmpty()) {
-                        System.out.println("PÄÄTTELY LIPPU");
                         move = true;
                         return placeFlag(this.untouchedSquaresExclPairs);
                     }
@@ -108,7 +104,6 @@ public class ProjectBot implements Bot {
         this.rounds = this.previous;
         // if it is not possible to make a move based on the two methods described above
         // the bot will make a random move
-        System.out.println("RANDOM AVAUS");
         return randomMove(board);
     }
     
