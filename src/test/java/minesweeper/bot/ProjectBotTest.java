@@ -56,4 +56,13 @@ public class ProjectBotTest {
         Move move = new Move(MoveType.FLAG, 0, 1);
         assertEquals(move, botMove);
     }
+    
+    @Test
+    public void secondMoveOpensSquare() {
+        Move move1 = this.bot.makeMove(board);
+        this.board.makeMove(move1);
+        Move botMove = this.bot.makeMove(board);
+        Move move = new Move(MoveType.OPEN, 0, 0);
+        assertEquals(move, botMove);
+    }
 }
