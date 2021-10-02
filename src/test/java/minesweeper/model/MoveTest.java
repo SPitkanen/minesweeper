@@ -68,7 +68,7 @@ public class MoveTest {
     public void toStringWorksToo() {
         move = new Move(MoveType.OPEN, 5, 5);
         
-        assertEquals("Move: OPEN Distance: 0.0000 Time: 0.0000", move.toString());
+        assertEquals("Move: OPEN Distance: 0,0000 Time: 0,0000", move.toString());
     }
 
 }
