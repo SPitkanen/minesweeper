@@ -6,6 +6,7 @@ import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 import minesweeper.model.Square;
+import java.util.HashSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,23 +32,35 @@ public class ProjectBotTest {
         this.generator = new MinefieldGenerator();
         this.board = new Board(generator, 5, 5, 0);
         
+        this.board.setTotalMines(6);
+        
+        board.board[0][0].setMine();
+        board.addMineSquareToList(board.board[0][0]);
+        board.incrementAdjacentSquares(0, 0);
+        
         board.board[1][0].setMine();
         board.addMineSquareToList(board.board[1][0]);
         board.incrementAdjacentSquares(1, 0);
         
-        board.board[1][4].setMine();
-        board.addMineSquareToList(board.board[1][4]);
-        board.incrementAdjacentSquares(1, 4);
+        board.board[0][1].setMine();
+        board.addMineSquareToList(board.board[0][1]);
+        board.incrementAdjacentSquares(0, 1);
         
-        board.board[3][4].setMine();
-        board.addMineSquareToList(board.board[3][4]);
-        board.incrementAdjacentSquares(3, 4);
+        board.board[3][2].setMine();
+        board.addMineSquareToList(board.board[3][2]);
+        board.incrementAdjacentSquares(3, 2);
         
-        board.board[4][4].setMine();
-        board.addMineSquareToList(board.board[4][4]);
-        board.incrementAdjacentSquares(4, 4);
+        board.board[4][2].setMine();
+        board.addMineSquareToList(board.board[4][2]);
+        board.incrementAdjacentSquares(4, 2);
         
-        this.board.makeMove(new Move(MoveType.OPEN, 3, 1));
+        board.board[0][4].setMine();
+        board.addMineSquareToList(board.board[0][4]);
+        board.incrementAdjacentSquares(0, 4);
+        
+        this.board.firstMove = false;
+        
+        this.board.makeMove(new Move(MoveType.OPEN, 4, 4));
         
         
     }
@@ -68,29 +81,31 @@ public class ProjectBotTest {
     
     @Test
     public void afnReturnsTrue() {
-        this.board.makeMove(new Move(MoveType.FLAG, 1, 0));
-        Square square = this.board.getSquareAt(1, 1);
+        this.board.makeMove(new Move(MoveType.FLAG, 0, 4));
+        Square square = this.board.getSquareAt(1, 4);
         boolean value = this.project.AFN(square, board);
         assertEquals(true, value);
     }
     
     @Test
     public void afnReturnsFalse() {
-        Square square = this.board.getSquareAt(1, 3);
+        this.project.pairs = new HashSet<>();
+        Square square = this.board.getSquareAt(1, 4);
         boolean value = this.project.AFN(square, board);
         assertEquals(false, value);
     }
     
     @Test
     public void amnReturnsTrue() {
-        Square square = this.board.getSquareAt(4, 3);
+        this.board.makeMove(new Move(MoveType.OPEN, 0, 3));
+        Square square = this.board.getSquareAt(1, 4);
         boolean value = this.project.AMN(square, board);
         assertEquals(true, value);
     }
     
     @Test
     public void amnReturnsFalse() {
-        Square square = this.board.getSquareAt(0, 3);
+        Square square = this.board.getSquareAt(1, 4);
         boolean value = this.project.AMN(square, board);
         assertEquals(false, value);
     }
@@ -133,5 +148,107 @@ public class ProjectBotTest {
     public void randomMoveReturnsMove() {
         Move move = this.project.randomMove(board);
         assertEquals(MoveType.OPEN, move.type);
+    }
+    
+    @Test
+    public void placeFlagReturnsFlagMove() {
+        Square square = board.getSquareAt(1, 0);
+        Move move = this.project.placeFlag(square);
+        assertEquals(MoveType.FLAG, move.type);
+    }
+    
+    @Test
+    public void openSquareReturnsOpenMove() {
+        Square square = board.getSquareAt(0, 3);
+        Move move = this.project.openSquare(square);
+        assertEquals(MoveType.OPEN, move.type);
+    }
+    
+    @Test
+    public void checkSurroundingSquaresIncreasesFlagCount() {
+        Move move = new Move(MoveType.FLAG, 0, 4);
+        board.makeMove(move);
+        this.project.zeroValues();
+        Square square = board.getSquareAt(1, 4);
+        this.project.checkSurroundingSquares(square, board);
+        assertEquals(1, this.project.flags);
+    }
+    
+    @Test
+    public void chechSurroundingPairsTrue() {
+        this.project.pairs = new HashSet<>();
+        Square square = board.getSquareAt(1, 4);
+        project.AFN(square, board);
+        Square square2 = board.getSquareAt(1, 3);
+        project.checkSurroundingSquares(square2, board);
+        boolean returnValue = project.checkSurroundingPairs(square2, board);
+        assertEquals(true, returnValue);
+    }
+    
+    @Test
+    public void chechSurroundingPairsFalse() {
+        this.project.pairs = new HashSet<>();
+        Move move = new Move(MoveType.FLAG, 0, 4);
+        board.makeMove(move);
+        Square square = board.getSquareAt(1, 4);
+        project.AFN(square, board);
+        Square square2 = board.getSquareAt(1, 3);
+        project.checkSurroundingSquares(square2, board);
+        boolean returnValue = project.checkSurroundingPairs(square2, board);
+        assertEquals(false, returnValue);
+    }
+    
+    @Test
+    public void gameWon() {
+        while (!board.gameWon) {
+            Move move = bot.makeMove(board);
+            board.makeMove(move);
+        }
+        
+        assertEquals(true, board.gameWon);
+    }
+    
+    @Test
+    public void AFNWithPairsReturnsTrue() {
+        this.project.pairs = new HashSet<>();
+        Square square = board.getSquareAt(1, 4);
+        this.project.AFN(square, board);
+        Square square2 = board.getSquareAt(1, 3);
+        boolean returnValue = this.project.AFNwithPairs(square2, board);
+        assertEquals(true, returnValue);
+    }
+    
+    @Test
+    public void AFNWithPairsReturnsFalse() {
+        this.project.pairs = new HashSet<>();
+        Square square = board.getSquareAt(1, 4);
+        this.project.AFN(square, board);
+        Move move = new Move(MoveType.FLAG, 0, 4);
+        board.makeMove(move);
+        Square square2 = board.getSquareAt(1, 3);
+        boolean returnValue = this.project.AFNwithPairs(square2, board);
+        assertEquals(false, returnValue);
+    }
+    
+    @Test
+    public void AMNWithPairsReturnsTrue() {
+        this.project.pairs = new HashSet<>();
+        Move move = new Move(MoveType.OPEN, 1, 2);
+        board.makeMove(move);
+        Square square = board.getSquareAt(2, 3);
+        this.project.AFN(square, board);
+        Square square2 = board.getSquareAt(3, 3);
+        boolean returnValue = this.project.AMNwithPairs(square2, board);
+        assertEquals(true, returnValue);
+    }
+    
+    @Test
+    public void AMNWithPairsReturnsFalse() {
+        this.project.pairs = new HashSet<>();
+        Square square = board.getSquareAt(1, 4);
+        this.project.AFN(square, board);
+        Square square2 = board.getSquareAt(1, 3);
+        boolean returnValue = this.project.AMNwithPairs(square2, board);
+        assertEquals(false, returnValue);
     }
 }

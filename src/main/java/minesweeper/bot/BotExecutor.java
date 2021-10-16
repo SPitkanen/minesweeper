@@ -30,12 +30,6 @@ public class BotExecutor extends Thread {
             this.queue.offer(move);
             this.board.makeMove(move);
         }
-        if (this.board.gameLost) {
-            System.out.println("--------HÄVISIT PELIN--------");
-        }
-        if (this.board.gameWon) {
-            System.out.println("--------VOITIT PELIN--------");
-        }
     }
 
 }
