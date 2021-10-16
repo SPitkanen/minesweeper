@@ -7,34 +7,35 @@ If this proces has not resulted in a changed board state, the bot will try to fi
 
 In case the board state still has not changed, the first while loop will be broken and random move is returned.
 
-At the time of writing this (16.10) the algorithm can achieve following results:
+At the time of writing this (16.10) the algorithm can achieve following results (Times in milliseconds):
 
-(Times in milliseconds)
+
 Beginner, 1000 games
-Wins: 992
-Defeats: 8
-Win Ratio: 99.0
-Fastest time: 0
-Slowest Time: 32
-Average Time: 1
+
+* Wins: 992
+* Defeats: 8
+* Win Ratio: 99.0
+* Fastest time: 0
+* Slowest Time: 32
+* Average Time: 1
  
 Intermediate, 1000 games
-Wins: 851
-Defeats: 149
-Win Ratio: 85.0
-Fastest time: 0
-Slowest Time: 73
-Average Time: 3
+* Wins: 851
+* Defeats: 149
+* Win Ratio: 85.0
+* Fastest time: 0
+* Slowest Time: 73
+* Average Time: 3
  
 Expert, 1000 games
-Wins: 120
-Defeats: 880
-Win Ratio: 12.0
-Fastest time: 0
-Slowest Time: 27
-Average Time: 5
+* Wins: 120
+* Defeats: 880
+* Win Ratio: 12.0
+* Fastest time: 0
+* Slowest Time: 27
+* Average Time: 5
 
 Separate class "BotPerformance" was created for this test and used from the main method.
+Faster slowest time in expert mode is likely result from earlier random moves on this game mode. Average time is still longer than on other modes and can be seen increasing with the difficulty level.
 
-At the moment the algorithm does not "run freely" and is stopped to return move one at a time.
-This could be solved easily but will result in changing some classes in the template.
+At the moment the algorithm does not "run freely" and is stopped to return moves one at a time. This could be solved easily but would result in changing some classes in the template.
