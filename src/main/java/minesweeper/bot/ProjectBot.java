@@ -4,7 +4,6 @@ package minesweeper.bot;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
@@ -34,6 +33,7 @@ public class ProjectBot implements Bot {
         this.pairCount = 0;
         this.unopened = 0;
         this.unmarkedNeighbors = new ArrayList<>();
+        this.pairs = new HashSet<>();
     }
     
     /**

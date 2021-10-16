@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import minesweeper.gui.StartSelectView;
+import minesweeper.bot.BotPerformance;
 
 public class App extends Application {
 
