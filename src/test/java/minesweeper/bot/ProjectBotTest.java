@@ -7,6 +7,7 @@ import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 import minesweeper.model.Square;
 import java.util.HashSet;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -250,5 +251,11 @@ public class ProjectBotTest {
         Square square2 = board.getSquareAt(1, 3);
         boolean returnValue = this.project.AMNwithPairs(square2, board);
         assertEquals(false, returnValue);
+    }
+    
+    @Test
+    public void findMovesReturnsList() {
+        ArrayList<Move> moves = this.project.findMoves(board);
+        assertEquals(5, moves.size());
     }
 }

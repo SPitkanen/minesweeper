@@ -13,7 +13,8 @@ import minesweeper.model.Pair;
 import minesweeper.model.Square;
 import minesweeper.generator.MinefieldGenerator;
 /**
- *
+ * This class can be used to measure ProjectBots performance
+ * 
  * @author santeripitkanen
  */
 public class BotPerformance {
