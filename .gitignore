@@ -10,4 +10,5 @@ stats/*
 # Ignore possible output from TestApp
 test.txt
 
+# Ignore ds store
 .DS_Store
