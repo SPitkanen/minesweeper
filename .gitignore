@@ -9,3 +9,5 @@ stats/*
 
 # Ignore possible output from TestApp
 test.txt
+
+.DS_Store
