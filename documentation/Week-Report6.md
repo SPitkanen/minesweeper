@@ -6,3 +6,5 @@ having to create nearly identical method as the DSSP. Additionally I have expand
 on the project.
 
 Next I will finish the documentation and polish the code a bit more.
+
+Time used 10h
