@@ -63,7 +63,7 @@ public class ProjectBot implements Bot {
      * Find possible move to make. 
      * Algorithm gets all open squares that have adjacent mines and enters a loop while game is not over.
      * Algorithm inserts these squares into safe squares and goes through them while trying to find instances of AFN
-     * AFN = All Free Neighbors; Surrounding mines = surrounding flags -> all of the remaining squares must be empty and can be opened
+     * AFN = All Free Neighbors; Surrounding mines = surrounding flags, meaning all of the remaining squares must be empty and can be opened
      * this happens by placing them to safeSquares. If not, the original square is placed to unsafeSquares for further inspection.
      * If safeSquares is empty, algorithm will try to find instances of AMN = All Mined Neighbors; placed flags + remaining unopened tiles = mine count
      * which means that remaining surrounding tiles are mines and can be flagged. This square is then removed from unsafeSquares.
@@ -76,6 +76,8 @@ public class ProjectBot implements Bot {
      * 
      * Change is used to stop the algorithm from entering an endless loop ie. only in case of a change on the board, it will continue.
      * 
+     * @param board current board state
+     * @return move to be made
      */
     public Move DSSP(Board board) {
         // Get all open squares with adjacent mines
